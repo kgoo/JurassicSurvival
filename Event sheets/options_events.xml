@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>options_events</name>
+    <events>
+        <variable name="set" type="number">1</variable>
+        <event-group description="" inactive="1" title="options">
+            <sub-events>
+                <event-block>
+                    <conditions />
+                    <actions>
+                        <action id="5" name="Set frame" type="slid_line">
+                            <param id="0" name="Frame number">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="7" name="Cursor is over object" type="Mouse">
+                            <param id="0" name="Object">slid_line</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set frame" type="slid_line">
+                            <param id="0" name="Frame number">1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block>
+                            <conditions>
+                                <condition id="2" name="Mouse button is down" type="Mouse">
+                                    <param id="0" name="Mouse button">0</param>
+                                </condition>
+                                <condition id="-13" name="Pick nth instance" type="System">
+                                    <param id="0" name="Object">slid_btn</param>
+                                    <param id="1" name="Instance">slid_line.IID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-13" name="Set boolean" type="slid_btn">
+                                    <param id="0" name="Instance variable">picked</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="6" name="On object clicked" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                            <param id="2" name="Object clicked">slid_btn</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-13" name="Set boolean" type="slid_btn">
+                            <param id="0" name="Instance variable">picked</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="2" inverted="1" name="Mouse button is down" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-13" name="Set boolean" type="slid_btn">
+                            <param id="0" name="Instance variable">picked</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions />
+                    <actions>
+                        <action id="5" name="Set frame" type="slid_btn">
+                            <param id="0" name="Frame number">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="7" name="Cursor is over object" type="Mouse">
+                            <param id="0" name="Object">slid_btn</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set frame" type="slid_btn">
+                            <param id="0" name="Frame number">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Is boolean instance variable set" type="slid_btn">
+                            <param id="0" name="Instance variable">picked</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set frame" type="slid_btn">
+                            <param id="0" name="Frame number">2</param>
+                        </action>
+                        <action id="-1" name="Set X" type="slid_btn">
+                            <param id="0" name="X">mouse.X</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-1" name="Every tick" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Set Y" type="slid_btn">
+                            <param id="0" name="Y">slid_line.Y</param>
+                        </action>
+                        <action id="-1" name="Set X" type="slid_btn">
+                            <param id="0" name="X">clamp(self.X,slid_line.X,slid_line.X+slid_line.Width)</param>
+                        </action>
+                        <action id="-1" name="Set X" type="slid_btn">
+                            <param id="0" name="X">(slid_line.snapped) ? round((self.X-slid_line.X)/(slid_line.Width/(slid_line.maxVal-slid_line.minVal)))*(slid_line.Width/(slid_line.maxVal-slid_line.minVal))+slid_line.X : self.X</param>
+                        </action>
+                        <action id="-10" name="Set value" type="slid_line">
+                            <param id="0" name="Instance variable">value</param>
+                            <param id="1" name="Value">lerp(self.minVal,self.maxVal,(slid_btn.X-self.X)/slid_line.Width)</param>
+                        </action>
+                        <action id="0" name="Set text" type="ValueBox">
+                            <param id="0" name="Text">str(round(slid_line.value))</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block>
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" type="slid_line">
+                                    <param id="0" name="Instance variable">type</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="2" name="Set muted" type="Audio">
+                                    <param id="0" name="Tag">&quot;BGM&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                                <action id="-9" name="Set value" type="System">
+                                    <param id="0" name="Variable">volume</param>
+                                    <param id="1" name="Value">slid_line.value</param>
+                                </action>
+                                <action id="3" name="Set volume" type="Audio">
+                                    <param id="0" name="Tag">&quot;BGM&quot;</param>
+                                    <param id="1" name="dB">-40*((100-volume)/100)</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block>
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" type="slid_line">
+                                            <param id="0" name="Instance variable">value</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="2" name="Set muted" type="Audio">
+                                            <param id="0" name="Tag">&quot;bgm&quot;</param>
+                                            <param id="1" name="State">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block>
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" type="slid_line">
+                                    <param id="0" name="Instance variable">type</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">2</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" type="System">
+                                    <param id="0" name="Variable">scrollRate</param>
+                                    <param id="1" name="Value">slid_line.value</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="1" name="On text changed" type="ValueBox" />
+                        <condition id="-13" name="Pick nth instance" type="System">
+                            <param id="0" name="Object">slid_btn</param>
+                            <param id="1" name="Instance">Valuebox.IID</param>
+                        </condition>
+                        <condition id="-13" name="Pick nth instance" type="System">
+                            <param id="0" name="Object">slid_line</param>
+                            <param id="1" name="Instance">Valuebox.IID</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-1" name="Set X" type="slid_btn">
+                            <param id="0" name="X">slid_line.X+unlerp(slid_line.minVal,slid_line.maxVal,float(Valuebox.Text))*slid_line.Width</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>

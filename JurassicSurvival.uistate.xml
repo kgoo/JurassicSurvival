@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2uistate>
+    <!--This is a UI state file - its content describes the user interface settings when the project was last open.
+It is entirely optional and the project will load without it.  If you are placing the project under source control,
+you probably do not want to add any .uistate.xml files to the repository.-->
+    <configurations>
+        <active>
+            <configuration name="HTML5" />
+        </active>
+        <display name="HTML5" />
+    </configurations>
+    <open-tabs>
+        <layout active="1">Game</layout>
+        <layout>Menu</layout>
+        <layout>Tutorial</layout>
+        <event-sheet>System_player</event-sheet>
+        <event-sheet>Dino</event-sheet>
+        <event-sheet>global_stuff</event-sheet>
+        <event-sheet>Buildings</event-sheet>
+        <event-sheet>Tutorial_event</event-sheet>
+        <event-sheet>options_events</event-sheet>
+        <event-sheet>Game_over_event</event-sheet>
+    </open-tabs>
+    <properties>
+        <property expanded="1" name="Project settings" />
+        <property expanded="0" name="Window Size" />
+        <property expanded="1" name="Configuration Settings" />
+    </properties>
+    <families-expanded root="1" />
+</c2uistate>

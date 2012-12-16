@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>global_stuff</name>
+    <events>
+        <event-block>
+            <conditions>
+                <condition id="-1" name="Every tick" type="System" />
+                <condition id="2" inverted="1" name="Is pause" type="Pause" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" type="Stats">
+                    <param id="0" name="Text">&quot;Health: &quot; &amp; player.Health &amp; &quot;    Gold: &quot;&amp;player.Gold&amp;newLine&amp;&quot;Level: &quot;&amp;level&amp;&quot;     Kills: &quot;&amp;kills &amp;newLine&amp;&quot;Score: &quot;&amp;score</param>
+                </action>
+                <action id="-12" name="Subtract from" type="BuildingShell">
+                    <param id="0" name="Instance variable">Cooldown</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-12" name="Subtract from" type="normal_bullet">
+                    <param id="0" name="Instance variable">health</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-12" name="Subtract from" type="DinoShell">
+                    <param id="0" name="Instance variable">cooldown</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-3" name="Set position" type="BuildingPlacer">
+                    <param id="0" name="X">mouse.X</param>
+                    <param id="1" name="Y">mouse.Y</param>
+                </action>
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">gameTime</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-12" name="Subtract from" type="Player">
+                    <param id="0" name="Instance variable">speedUpDuration</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-3" name="Set position" type="playerHealthbar">
+                    <param id="0" name="X">player.X</param>
+                    <param id="1" name="Y">player.Y-80</param>
+                </action>
+                <action id="-5" name="Set width" type="playerHealthbar">
+                    <param id="0" name="Width">player.Health*75/100</param>
+                </action>
+                <action id="-24" name="Move to top" type="playerHealthbar" />
+                <action id="-11" name="Subtract from" type="System">
+                    <param id="0" name="Variable">vraptPlaying</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-11" name="Subtract from" type="System">
+                    <param id="0" name="Variable">mgPlaying</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-11" name="Subtract from" type="System">
+                    <param id="0" name="Variable">trexPlaying</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+                <action id="-11" name="Subtract from" type="System">
+                    <param id="0" name="Variable">pteroPlaying</param>
+                    <param id="1" name="Value">dt</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">mouse.AbsoluteX</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">WindowWidth</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">scrollX</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Second value">LayoutWidth-WindowWidth/2</param>
+                        </condition>
+                        <condition id="2" inverted="1" name="Is pause" type="Pause" />
+                    </conditions>
+                    <actions>
+                        <action id="-5" name="Scroll to X" type="System">
+                            <param id="0" name="X">scrollX + scrollRate</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">mouse.AbsoluteX</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">scrollX</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">WindowWidth/2</param>
+                        </condition>
+                        <condition id="2" inverted="1" name="Is pause" type="Pause" />
+                    </conditions>
+                    <actions>
+                        <action id="-5" name="Scroll to X" type="System">
+                            <param id="0" name="X">scrollX - scrollRate</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">mouse.AbsoluteY</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">WindowHeight</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">scrollY</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Second value">LayoutHeight-WindowHeight/2</param>
+                        </condition>
+                        <condition id="2" inverted="1" name="Is pause" type="Pause" />
+                    </conditions>
+                    <actions>
+                        <action id="-6" name="Scroll to Y" type="System">
+                            <param id="0" name="Y">scrollY + scrollRate</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">mouse.AbsoluteY</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">scrollY</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">WindowHeight/2</param>
+                        </condition>
+                        <condition id="2" inverted="1" name="Is pause" type="Pause" />
+                    </conditions>
+                    <actions>
+                        <action id="-6" name="Scroll to Y" type="System">
+                            <param id="0" name="Y">scrollY - scrollRate</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-11" name="For Each" type="System">
+                            <param id="0" name="Object">DinoShell</param>
+                        </condition>
+                        <condition id="-13" name="Pick nth instance" type="System">
+                            <param id="0" name="Object">dinoHealthBar</param>
+                            <param id="1" name="Instance">dinoshell.IID</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" type="dinoHealthBar">
+                            <param id="0" name="X">dinoshell.X</param>
+                            <param id="1" name="Y">dinoshell.Y-100</param>
+                        </action>
+                        <action id="-5" name="Set width" type="dinoHealthBar">
+                            <param id="0" name="Width">dinoshell.currHealth*300/dinoshell.maxHealth</param>
+                        </action>
+                        <action id="-24" name="Move to top" type="dinoHealthBar" />
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-11" name="For Each" type="System">
+                            <param id="0" name="Object">BuildingShell</param>
+                        </condition>
+                        <condition id="-13" name="Pick nth instance" type="System">
+                            <param id="0" name="Object">buildingHealthBar</param>
+                            <param id="1" name="Instance">buildingshell.IID</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" type="buildingHealthBar">
+                            <param id="0" name="X">buildingShell.X</param>
+                            <param id="1" name="Y">buildingShell.Y-80</param>
+                        </action>
+                        <action id="-5" name="Set width" type="buildingHealthBar">
+                            <param id="0" name="Width">buildingshell.currHealth*300/buildingShell.maxHealth</param>
+                        </action>
+                        <action id="-24" name="Move to top" type="buildingHealthBar" />
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">experience</param>
+                            <param id="1" name="Comparison">5</param>
+                            <param id="2" name="Second value">(2^(level-1)*500)</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">experience</param>
+                            <param id="1" name="Value">experience-(2^(level-1)*500)</param>
+                        </action>
+                        <action id="-10" name="Add to" type="System">
+                            <param id="0" name="Variable">level</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-10" name="Set value" type="Player">
+                            <param id="0" name="Instance variable">Health</param>
+                            <param id="1" name="Value">100</param>
+                        </action>
+                        <action id="-11" name="Add to" type="Player">
+                            <param id="0" name="Instance variable">Gold</param>
+                            <param id="1" name="Value">500</param>
+                        </action>
+                        <action id="-3" name="Create object" type="System">
+                            <param id="0" name="Object to create">levelUpText</param>
+                            <param id="1" name="Layer">2</param>
+                            <param id="2" name="X">225</param>
+                            <param id="3" name="Y">150</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block>
+                            <conditions>
+                                <condition id="-14" name="Compare variable" type="System">
+                                    <param id="0" name="Variable">volume</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Play" type="Audio">
+                                    <param id="0" name="Audio file">Ta Da-SoundBible.com-1884170640</param>
+                                    <param id="2" name="Loop">0</param>
+                                    <param id="1" name="Tag (optional)">&quot;levelup&quot;</param>
+                                </action>
+                                <action id="3" name="Set volume" type="Audio">
+                                    <param id="0" name="Tag">&quot;levelup&quot;</param>
+                                    <param id="1" name="dB">-30*volume</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-block>
+    </events>
+</c2eventsheet>

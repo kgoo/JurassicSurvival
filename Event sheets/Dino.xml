@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Dino</name>
+    <events>
+        <variable name="level" type="number">1</variable>
+        <variable name="kills" type="number">0</variable>
+        <event-block>
+            <conditions>
+                <condition id="-7" name="Compare instance variable" type="DinoShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+                <condition id="-13" name="Pick nth instance" type="System">
+                    <param id="0" name="Object">dinoHealthBar</param>
+                    <param id="1" name="Instance">dinoshell.IID</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="DinoShell" />
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">score</param>
+                    <param id="1" name="Value">Dinoshell.points</param>
+                </action>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">dino_explosion</param>
+                    <param id="1" name="Layer">0</param>
+                    <param id="2" name="X">DinoShell.X</param>
+                    <param id="3" name="Y">Dinoshell.Y</param>
+                </action>
+                <action id="-9" name="Destroy" type="dinoHealthBar" />
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">kills</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">experience</param>
+                    <param id="1" name="Value">dinoshell.experience</param>
+                </action>
+                <action id="-5" name="Set width" type="levelupfill">
+                    <param id="0" name="Width">512*experience/(2^(level-1)*500)</param>
+                </action>
+                <action id="0" name="Set text" type="experience_text">
+                    <param id="0" name="Text">&quot;Experience: &quot;&amp;experience&amp;&quot;/&quot;&amp;(2^(level-1)*500)</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="DinoShell">
+                    <param id="0" name="Object">Player</param>
+                </condition>
+                <condition id="-7" name="Compare instance variable" type="DinoShell">
+                    <param id="0" name="Instance variable">cooldown</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Bullet" id="0" name="Set speed" type="DinoShell">
+                    <param id="0" name="Speed">0</param>
+                </action>
+                <action id="-12" name="Subtract from" type="Player">
+                    <param id="0" name="Instance variable">Health</param>
+                    <param id="1" name="Value">Dinoshell.Damage</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="DinoShell">
+                    <param id="0" name="Object">BuildingShell</param>
+                </condition>
+                <condition id="-8" inverted="1" name="Is boolean instance variable set" type="DinoShell">
+                    <param id="0" name="Instance variable">isFlying</param>
+                </condition>
+                <condition id="-7" name="Compare instance variable" type="DinoShell">
+                    <param id="0" name="Instance variable">cooldown</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-12" name="Subtract from" type="BuildingShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Value">Dinoshell.Damage*3</param>
+                </action>
+                <action behavior="Bullet" id="4" name="Bounce off object" type="DinoShell">
+                    <param id="0" name="Object">DinoShell</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">cooldown</param>
+                    <param id="1" name="Value">0.75</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">gameTime</param>
+                    <param id="1" name="Comparison">5</param>
+                    <param id="2" name="Value">60</param>
+                </condition>
+                <condition id="-6" name="Every X seconds" type="System">
+                    <param id="0" name="Interval (seconds)">30</param>
+                </condition>
+                <condition id="-10" name="For" type="System">
+                    <param id="0" name="Name">&quot;trexSpawn&quot;</param>
+                    <param id="1" name="Start index">1</param>
+                    <param id="2" name="End index">ceil(level/2)</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">DinoShell</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">random(LayoutWidth)</param>
+                    <param id="3" name="Y">random(300)</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Value">300*(1+level/20)</param>
+                </action>
+                <action id="5" name="Set frame" type="DinoShell">
+                    <param id="0" name="Frame number">2</param>
+                </action>
+                <action id="2" name="Stop" type="DinoShell" />
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">experience</param>
+                    <param id="1" name="Value">100</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">Damage</param>
+                    <param id="1" name="Value">20</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">points</param>
+                    <param id="1" name="Value">30000*level/2</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">maxHealth</param>
+                    <param id="1" name="Value">300*(1+level/20)</param>
+                </action>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">dinoHealthBar</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">dinoshell.X</param>
+                    <param id="3" name="Y">dinoshell.Y-100</param>
+                </action>
+                <action id="-24" name="Move to top" type="dinoHealthBar" />
+                <action id="-13" name="Set boolean" type="DinoShell">
+                    <param id="0" name="Instance variable">isFlying</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">volume</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">trexPlaying</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Play" type="Audio">
+                            <param id="0" name="Audio file">Tyrannosaurus Rex-SoundBible.com-2136096676</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="1" name="Tag (optional)">&quot;t-rex&quot;</param>
+                        </action>
+                        <action id="3" name="Set volume" type="Audio">
+                            <param id="0" name="Tag">&quot;t-rex&quot;</param>
+                            <param id="1" name="dB">-30*((100-volume)/100)</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">trexPlaying</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">gameTime</param>
+                    <param id="1" name="Comparison">5</param>
+                    <param id="2" name="Value">30</param>
+                </condition>
+                <condition id="-6" name="Every X seconds" type="System">
+                    <param id="0" name="Interval (seconds)">15</param>
+                </condition>
+                <condition id="-10" name="For" type="System">
+                    <param id="0" name="Name">&quot;raptSpawn&quot;</param>
+                    <param id="1" name="Start index">1</param>
+                    <param id="2" name="End index">6+(level*2)</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">DinoShell</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">random(LayoutWidth)</param>
+                    <param id="3" name="Y">2000</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Value">50*(1+level/20)</param>
+                </action>
+                <action id="5" name="Set frame" type="DinoShell">
+                    <param id="0" name="Frame number">1</param>
+                </action>
+                <action id="2" name="Stop" type="DinoShell" />
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">experience</param>
+                    <param id="1" name="Value">10</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">Damage</param>
+                    <param id="1" name="Value">5</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">points</param>
+                    <param id="1" name="Value">6000*level/2</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">maxHealth</param>
+                    <param id="1" name="Value">50*(1+level/20)</param>
+                </action>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">dinoHealthBar</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">dinoshell.X</param>
+                    <param id="3" name="Y">dinoshell.Y-100</param>
+                </action>
+                <action id="-24" name="Move to top" type="dinoHealthBar" />
+                <action id="-13" name="Set boolean" type="DinoShell">
+                    <param id="0" name="Instance variable">isFlying</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">volume</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">vraptPlaying</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Play" type="Audio">
+                            <param id="0" name="Audio file">Velociraptor Call-SoundBible.com-1782075819</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="1" name="Tag (optional)">&quot;vrapt&quot;</param>
+                        </action>
+                        <action id="3" name="Set volume" type="Audio">
+                            <param id="0" name="Tag">&quot;vrapt&quot;</param>
+                            <param id="1" name="dB">-30*((100-volume)/100)</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">vraptPlaying</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">level</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Value">1</param>
+                </condition>
+                <condition id="-6" name="Every X seconds" type="System">
+                    <param id="0" name="Interval (seconds)">20</param>
+                </condition>
+                <condition id="-10" name="For" type="System">
+                    <param id="0" name="Name">&quot;pterospawn&quot;</param>
+                    <param id="1" name="Start index">1</param>
+                    <param id="2" name="End index">(level-1)*2</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">DinoShell</param>
+                    <param id="1" name="Layer">0</param>
+                    <param id="2" name="X">LayoutWidth</param>
+                    <param id="3" name="Y">random(2000)</param>
+                </action>
+                <action id="-24" name="Move to top" type="DinoShell" />
+                <action id="5" name="Set frame" type="DinoShell">
+                    <param id="0" name="Frame number">3</param>
+                </action>
+                <action id="2" name="Stop" type="DinoShell" />
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Value">100*(1+0.05*level)</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">maxHealth</param>
+                    <param id="1" name="Value">100*(1+0.05*level)</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">experience</param>
+                    <param id="1" name="Value">20</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">Damage</param>
+                    <param id="1" name="Value">10</param>
+                </action>
+                <action id="-10" name="Set value" type="DinoShell">
+                    <param id="0" name="Instance variable">points</param>
+                    <param id="1" name="Value">10000*level/2</param>
+                </action>
+                <action id="-13" name="Set boolean" type="DinoShell">
+                    <param id="0" name="Instance variable">isFlying</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">dinoHealthBar</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">dinoshell.X</param>
+                    <param id="3" name="Y">dinoshell.Y</param>
+                </action>
+                <action id="-24" name="Move to top" type="dinoHealthBar" />
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">volume</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">pteroPlaying</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Play" type="Audio">
+                            <param id="0" name="Audio file">pterodactyl_screech-Mike_Koenig-1344719300</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="1" name="Tag (optional)">&quot;ptero&quot;</param>
+                        </action>
+                        <action id="3" name="Set volume" type="Audio">
+                            <param id="0" name="Tag">&quot;ptero&quot;</param>
+                            <param id="1" name="dB">-30*((100-volume)/100)</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">pteroPlaying</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+    </events>
+</c2eventsheet>

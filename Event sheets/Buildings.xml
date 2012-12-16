@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Buildings</name>
+    <events>
+        <event-block>
+            <conditions>
+                <condition id="-11" name="For Each" type="System">
+                    <param id="0" name="Object">BuildingShell</param>
+                </condition>
+                <condition id="-15" name="Pick nearest/furthest" type="DinoShell">
+                    <param id="0" name="Which">0</param>
+                    <param id="1" name="X">buildingshell.X</param>
+                    <param id="2" name="Y">buildingshell.Y</param>
+                </condition>
+                <condition id="-8" name="Compare two values" type="System">
+                    <param id="0" name="First value">distance(buildingshell.X,buildingshell.Y,dinoshell.x,dinoshell.Y)</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Second value">500</param>
+                </condition>
+                <condition id="-7" name="Compare instance variable" type="BuildingShell">
+                    <param id="0" name="Instance variable">Damage</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+                <condition id="-7" name="Compare instance variable" type="BuildingShell">
+                    <param id="0" name="Instance variable">Cooldown</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">normal_bullet</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">buildingshell.X</param>
+                    <param id="3" name="Y">buildingshell.Y</param>
+                </action>
+                <action id="-22" name="Set angle toward position" type="normal_bullet">
+                    <param id="0" name="X">dinoshell.X</param>
+                    <param id="1" name="Y">dinoshell.Y</param>
+                </action>
+                <action id="-10" name="Set value" type="BuildingShell">
+                    <param id="0" name="Instance variable">Cooldown</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-12" name="Subtract from" type="DinoShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Value">buildingshell.Damage</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">volume</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">mgPlaying</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Play" type="Audio">
+                            <param id="0" name="Audio file">Machine Gun-SoundBible.com-1628260538</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="1" name="Tag (optional)">&quot;mgfire&quot;</param>
+                        </action>
+                        <action id="3" name="Set volume" type="Audio">
+                            <param id="0" name="Tag">&quot;mgfire&quot;</param>
+                            <param id="1" name="dB">-30*((100-volume)/100)</param>
+                        </action>
+                        <action id="5" name="Set playback rate" type="Audio">
+                            <param id="0" name="Tag">&quot;mgfire&quot;</param>
+                            <param id="1" name="Playback rate">1</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">mgPlaying</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-7" name="Compare instance variable" type="normal_bullet">
+                    <param id="0" name="Instance variable">health</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="normal_bullet" />
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-7" name="Compare instance variable" type="BuildingShell">
+                    <param id="0" name="Instance variable">currHealth</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+                <condition id="-13" name="Pick nth instance" type="System">
+                    <param id="0" name="Object">buildingHealthBar</param>
+                    <param id="1" name="Instance">buildingshell.IID</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="BuildingShell" />
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">Tower_explosion</param>
+                    <param id="1" name="Layer">0</param>
+                    <param id="2" name="X">buildingshell.X</param>
+                    <param id="3" name="Y">buildingshell.Y</param>
+                </action>
+                <action id="-9" name="Destroy" type="buildingHealthBar" />
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>

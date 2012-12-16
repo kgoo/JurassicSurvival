@@ -1,0 +1,706 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>System_player</name>
+    <events>
+        <variable name="pteroPlaying" type="number">0</variable>
+        <variable name="experience" type="number">0</variable>
+        <variable name="trexPlaying" type="number">0</variable>
+        <variable name="vraptPlaying" type="number">0</variable>
+        <variable name="mgPlaying" type="number">0</variable>
+        <variable name="volume" type="number">39</variable>
+        <variable name="paused" type="number">0</variable>
+        <variable name="gameTime" type="number">0</variable>
+        <variable name="score" type="number">0</variable>
+        <variable name="canBuild" type="number">0</variable>
+        <variable name="scrollRate" type="number">4</variable>
+        <variable name="BuildingID" type="number">0</variable>
+        <variable name="isBuilding" type="number">0</variable>
+        <include>global_stuff</include>
+        <include>options_events</include>
+        <include>Game_over_event</include>
+        <include>Buildings</include>
+        <include>Dino</include>
+        <event-block>
+            <conditions>
+                <condition id="-6" name="Every X seconds" type="System">
+                    <param id="0" name="Interval (seconds)">5</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">gold</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">Player.X+(Random(2000)-1000)</param>
+                    <param id="3" name="Y">player.Y+(Random(2000)-1000)</param>
+                </action>
+                <action id="-24" name="Move to top" type="gold" />
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">speed_up</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">Random(LayoutWidth)</param>
+                    <param id="3" name="Y">Random(LayoutHeight)</param>
+                </action>
+                <action id="-24" name="Move to top" type="speed_up" />
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-2" name="On start of layout" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" type="sentry_tower_button">
+                    <param id="0" name="Text">&quot;Sentry Tower&quot;&amp;newline&amp;&quot;200 gold&quot;</param>
+                </action>
+                <action id="0" name="Set text" type="wall_button">
+                    <param id="0" name="Text">&quot;Wall&quot;&amp;newline&amp;&quot;50 gold&quot;</param>
+                </action>
+                <action id="0" name="Play" type="Audio">
+                    <param id="0" name="Audio file">The Hallowed</param>
+                    <param id="2" name="Loop">1</param>
+                    <param id="1" name="Tag (optional)">&quot;BGM&quot;</param>
+                </action>
+                <action id="3" name="Set volume" type="Audio">
+                    <param id="0" name="Tag">&quot;BGM&quot;</param>
+                    <param id="1" name="dB">-20</param>
+                </action>
+                <action id="-7" name="Scroll to position" type="System">
+                    <param id="0" name="X">player.X</param>
+                    <param id="1" name="Y">player.Y</param>
+                </action>
+                <action id="-9" name="Destroy" type="BuildingPlacer" />
+                <action id="-9" name="Destroy" type="DinoShell" />
+                <action id="-5" name="Set width" type="levelupfill">
+                    <param id="0" name="Width">512*experience/(2^(level-1)*500)</param>
+                </action>
+                <action id="0" name="Set text" type="experience_text">
+                    <param id="0" name="Text">&quot;Experience: &quot;&amp;experience&amp;&quot;/&quot;&amp;(2^(level-1)*500)</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">volume</param>
+                    <param id="1" name="Value">39</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">gameTime</param>
+                    <param id="1" name="Comparison">5</param>
+                    <param id="2" name="Value">30</param>
+                </condition>
+                <condition id="-6" name="Every X seconds" type="System">
+                    <param id="0" name="Interval (seconds)">1</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-22" name="Set angle toward position" type="DinoShell">
+                    <param id="0" name="X">player.X</param>
+                    <param id="1" name="Y">player.Y</param>
+                </action>
+                <action behavior="Bullet" id="0" name="Set speed" type="DinoShell">
+                    <param id="0" name="Speed">150</param>
+                </action>
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">score</param>
+                    <param id="1" name="Value">1000</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-8" name="Compare two values" type="System">
+                    <param id="0" name="First value">distance(player.X,player.Y,target.x,target.Y)</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Second value">20</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Bullet" id="0" name="Set speed" type="Player">
+                    <param id="0" name="Speed">0</param>
+                </action>
+                <action id="-3" name="Set position" type="target">
+                    <param id="0" name="X">-100</param>
+                    <param id="1" name="Y">-100</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On click" type="Mouse">
+                    <param id="0" name="Mouse button">2</param>
+                    <param id="1" name="Click type">0</param>
+                </condition>
+                <condition id="2" inverted="1" name="Is pause" type="Pause" />
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">isBuilding</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                        <condition id="-14" name="Pick by unique ID" type="BuildingPlacer">
+                            <param id="0" name="Unique ID">BuildingID</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" type="BuildingPlacer" />
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">isBuilding</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">canBuild</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-22" name="Else" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" type="target">
+                            <param id="0" name="X">Mouse.X</param>
+                            <param id="1" name="Y">mouse.Y</param>
+                        </action>
+                        <action id="-22" name="Set angle toward position" type="Player">
+                            <param id="0" name="X">Mouse.X</param>
+                            <param id="1" name="Y">mouse.Y</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">isBuilding</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">canBuild</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block>
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" type="Player">
+                                    <param id="0" name="Instance variable">speedUpDuration</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="Bullet" id="0" name="Set speed" type="Player">
+                                    <param id="0" name="Speed">200</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block>
+                            <conditions>
+                                <condition id="-22" name="Else" type="System" />
+                            </conditions>
+                            <actions>
+                                <action behavior="Bullet" id="0" name="Set speed" type="Player">
+                                    <param id="0" name="Speed">100</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-7" name="Compare instance variable" type="Player">
+                    <param id="0" name="Instance variable">Health</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="Player" />
+                <action id="-25" name="Go to layout (by name)" type="System">
+                    <param id="0" name="Layout">&quot;Gameover_menu&quot;</param>
+                </action>
+                <action id="1" name="Set pause state" type="Pause">
+                    <param id="0" name="State">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On clicked" type="sentry_tower_button" />
+                <condition id="2" inverted="1" name="Is pause" type="Pause" />
+                <condition id="-7" name="Compare instance variable" type="Player">
+                    <param id="0" name="Instance variable">Gold</param>
+                    <param id="1" name="Comparison">5</param>
+                    <param id="2" name="Value">200</param>
+                </condition>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">isBuilding</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">BuildingPlacer</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">mouse.X</param>
+                    <param id="3" name="Y">mouse.Y</param>
+                </action>
+                <action id="5" name="Set frame" type="BuildingPlacer">
+                    <param id="0" name="Frame number">2</param>
+                </action>
+                <action id="2" name="Stop" type="BuildingPlacer" />
+                <action id="-10" name="Set value" type="BuildingPlacer">
+                    <param id="0" name="Instance variable">Type</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">isBuilding</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">BuildingID</param>
+                    <param id="1" name="Value">BuildingPlacer.UID</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">canBuild</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On clicked" type="wall_button" />
+                <condition id="2" inverted="1" name="Is pause" type="Pause" />
+                <condition id="-7" name="Compare instance variable" type="Player">
+                    <param id="0" name="Instance variable">Gold</param>
+                    <param id="1" name="Comparison">5</param>
+                    <param id="2" name="Value">50</param>
+                </condition>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">isBuilding</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" type="System">
+                    <param id="0" name="Object to create">BuildingPlacer</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">mouse.X</param>
+                    <param id="3" name="Y">mouse.Y</param>
+                </action>
+                <action id="5" name="Set frame" type="BuildingPlacer">
+                    <param id="0" name="Frame number">0</param>
+                </action>
+                <action id="2" name="Stop" type="BuildingPlacer" />
+                <action id="-10" name="Set value" type="BuildingPlacer">
+                    <param id="0" name="Instance variable">Type</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">isBuilding</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">canBuild</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">BuildingID</param>
+                    <param id="1" name="Value">BuildingPlacer.UID</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="6" name="On object clicked" type="Mouse">
+                    <param id="0" name="Mouse button">0</param>
+                    <param id="1" name="Click type">1</param>
+                    <param id="2" name="Object clicked">BuildingShell</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" type="BuildingShell">
+                            <param id="0" name="Instance variable">Type</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-18" name="Rotate clockwise" type="BuildingShell">
+                            <param id="0" name="Degrees">90</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On clicked" type="Music_Button" />
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block any="1">
+                    <conditions>
+                        <condition id="-8" inverted="1" name="Is boolean instance variable set" type="Music_Button">
+                            <param id="0" name="Instance variable">On</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" type="Music_Button">
+                            <param id="0" name="Text">&quot;Music On&quot;</param>
+                        </action>
+                        <action id="-13" name="Set boolean" type="Music_Button">
+                            <param id="0" name="Instance variable">On</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="0" name="Play" type="Audio">
+                            <param id="0" name="Audio file">The Hallowed</param>
+                            <param id="2" name="Loop">1</param>
+                            <param id="1" name="Tag (optional)">&quot;BGM&quot;</param>
+                        </action>
+                        <action id="3" name="Set volume" type="Audio">
+                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                            <param id="1" name="dB">-10</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-22" name="Else" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" type="Music_Button">
+                            <param id="0" name="Text">&quot;Music Off&quot;</param>
+                        </action>
+                        <action id="6" name="Stop" type="Audio">
+                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                        </action>
+                        <action id="-13" name="Set boolean" type="Music_Button">
+                            <param id="0" name="Instance variable">On</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">isBuilding</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">1</param>
+                </condition>
+                <condition id="-15" name="Pick nearest/furthest" type="BuildingPlacer">
+                    <param id="0" name="Which">0</param>
+                    <param id="1" name="X">mouse.X</param>
+                    <param id="2" name="Y">mouse.Y</param>
+                </condition>
+                <condition id="-15" name="Pick nearest/furthest" type="BuildingShell">
+                    <param id="0" name="Which">0</param>
+                    <param id="1" name="X">BuildingPlacer.X</param>
+                    <param id="2" name="Y">BuildingPlacer.Y</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" type="BuildingPlacer">
+                            <param id="0" name="Object">BuildingShell</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set frame" type="BuildingPlacer">
+                            <param id="0" name="Frame number">buildingplacer.type*2+1</param>
+                        </action>
+                        <action id="2" name="Stop" type="BuildingPlacer" />
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">canBuild</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-22" name="Else" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set frame" type="BuildingPlacer">
+                            <param id="0" name="Frame number">buildingplacer.Type*2</param>
+                        </action>
+                        <action id="2" name="Stop" type="BuildingPlacer" />
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">canBuild</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On click" type="Mouse">
+                    <param id="0" name="Mouse button">0</param>
+                    <param id="1" name="Click type">0</param>
+                </condition>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">isBuilding</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">1</param>
+                </condition>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">canBuild</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">1</param>
+                </condition>
+                <condition id="-14" name="Pick by unique ID" type="BuildingPlacer">
+                    <param id="0" name="Unique ID">BuildingID</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" type="BuildingPlacer">
+                            <param id="0" name="Instance variable">Type</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" type="System">
+                            <param id="0" name="Object to create">BuildingShell</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="X">buildingplacer.X</param>
+                            <param id="3" name="Y">buildingplacer.Y</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">isBuilding</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">canBuild</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="5" name="Set frame" type="BuildingShell">
+                            <param id="0" name="Frame number">2</param>
+                        </action>
+                        <action id="-12" name="Subtract from" type="Player">
+                            <param id="0" name="Instance variable">Gold</param>
+                            <param id="1" name="Value">50</param>
+                        </action>
+                        <action id="-9" name="Destroy" type="BuildingPlacer" />
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">currHealth</param>
+                            <param id="1" name="Value">500</param>
+                        </action>
+                        <action id="2" name="Stop" type="BuildingShell" />
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">maxHealth</param>
+                            <param id="1" name="Value">500</param>
+                        </action>
+                        <action id="-3" name="Create object" type="System">
+                            <param id="0" name="Object to create">buildingHealthBar</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="X">buildingshell.X</param>
+                            <param id="3" name="Y">buildingshell.Y-80</param>
+                        </action>
+                        <action id="-24" name="Move to top" type="buildingHealthBar" />
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">Type</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" type="BuildingPlacer">
+                            <param id="0" name="Instance variable">Type</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" type="System">
+                            <param id="0" name="Object to create">BuildingShell</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="X">buildingplacer.X</param>
+                            <param id="3" name="Y">buildingplacer.Y</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">isBuilding</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">canBuild</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="5" name="Set frame" type="BuildingShell">
+                            <param id="0" name="Frame number">1</param>
+                        </action>
+                        <action id="-12" name="Subtract from" type="Player">
+                            <param id="0" name="Instance variable">Gold</param>
+                            <param id="1" name="Value">200</param>
+                        </action>
+                        <action id="-9" name="Destroy" type="BuildingPlacer" />
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">currHealth</param>
+                            <param id="1" name="Value">250</param>
+                        </action>
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">Damage</param>
+                            <param id="1" name="Value">25</param>
+                        </action>
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">Cooldown</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="2" name="Stop" type="BuildingShell" />
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">maxHealth</param>
+                            <param id="1" name="Value">250</param>
+                        </action>
+                        <action id="-3" name="Create object" type="System">
+                            <param id="0" name="Object to create">buildingHealthBar</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="X">buildingshell.X</param>
+                            <param id="3" name="Y">buildingshell.Y-80</param>
+                        </action>
+                        <action id="-24" name="Move to top" type="buildingHealthBar" />
+                        <action id="-10" name="Set value" type="BuildingShell">
+                            <param id="0" name="Instance variable">Type</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On key pressed" type="Keyboard">
+                    <param id="0" name="Key">32 (Space)</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-7" name="Scroll to position" type="System">
+                    <param id="0" name="X">player.X</param>
+                    <param id="1" name="Y">player.Y</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On key pressed" type="Keyboard">
+                    <param id="0" name="Key">27 (Esc)</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">paused</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="1" name="Set pause state" type="Pause">
+                            <param id="0" name="State">0</param>
+                        </action>
+                        <action id="-7" name="Scroll to position" type="System">
+                            <param id="0" name="X">0</param>
+                            <param id="1" name="Y">0</param>
+                        </action>
+                        <action id="-12" name="Set group active" type="System">
+                            <param id="0" name="Group name">&quot;options&quot;</param>
+                            <param id="1" name="State">1</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" type="System">
+                            <param id="0" name="Layer">3</param>
+                            <param id="1" name="Visibility">1</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" type="System">
+                            <param id="0" name="Layer">2</param>
+                            <param id="1" name="Visibility">0</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">paused</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">set</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-22" name="Else" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="1" name="Set pause state" type="Pause">
+                            <param id="0" name="State">1</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">paused</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" type="System">
+                            <param id="0" name="Layer">2</param>
+                            <param id="1" name="Visibility">1</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" type="System">
+                            <param id="0" name="Layer">3</param>
+                            <param id="1" name="Visibility">0</param>
+                        </action>
+                        <action id="-7" name="Scroll to position" type="System">
+                            <param id="0" name="X">player.X</param>
+                            <param id="1" name="Y">player.Y</param>
+                        </action>
+                        <action id="-12" name="Set group active" type="System">
+                            <param id="0" name="Group name">&quot;options&quot;</param>
+                            <param id="1" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="gold">
+                    <param id="0" name="Object">Player</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="gold" />
+                <action id="-11" name="Add to" type="Player">
+                    <param id="0" name="Instance variable">Gold</param>
+                    <param id="1" name="Value">100</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="speed_up">
+                    <param id="0" name="Object">Player</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-10" name="Set value" type="Player">
+                    <param id="0" name="Instance variable">speedUpDuration</param>
+                    <param id="1" name="Value">3</param>
+                </action>
+                <action id="-9" name="Destroy" type="speed_up" />
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>
